@@ -26,23 +26,45 @@ import cropDoctorImg from "../assets/images/Crop-Doctor.avif";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ name: "Aurosmita Sahoo", location: "Punjab" });
+  const [user, setUser] = useState({ name: "Aurosmita Sahoo", location: "chandbali" });
   const [currentTime, setCurrentTime] = useState(new Date());
   const [imageErrors, setImageErrors] = useState({});
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isLoading, setIsLoading] = useState({});
   const [showNotification, setShowNotification] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showTime, setShowTime] = useState(true);
+
+  // Sample data for stats
+  const [stats] = useState({
+    farmers: "1,240",
+    crops: "5,680", 
+    orders: "8,840",
+    earnings: "₹4.2Cr"
+  });
+
+  // Market data
+  const [marketData] = useState([
+    { crop: "Wheat", market: "Khanna", price: "₹2,275", change: "+15%", trend: "up" },
+    { crop: "Rice", market: "Jangaon", price: "₹2,450", change: "-10%", trend: "down" },
+    { crop: "Onion", market: "Lasalgaon", price: "₹1,850", change: "-80%", trend: "down" },
+    { crop: "Tomato", market: "Kolar", price: "₹950", change: "+45%", trend: "up" },
+    { crop: "Potato", market: "Agra", price: "₹1,250", change: "+30%", trend: "up" },
+    { crop: "Cotton", market: "Akola", price: "₹7,200", change: "+120%", trend: "up" }
+  ]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.log("Error parsing user");
+      }
     }
     
-    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     
-    // Mouse move effect for parallax
     const handleMouseMove = (e) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth - 0.5) * 20,
@@ -66,7 +88,12 @@ function Dashboard() {
     setIsLoading(prev => ({ ...prev, [path]: true }));
     setTimeout(() => {
       navigate(path);
+      setIsLoading(prev => ({ ...prev, [path]: false }));
     }, 300);
+  };
+
+  const toggleTimeDisplay = () => {
+    setShowTime(!showTime);
   };
 
   const formattedDate = currentTime.toLocaleDateString('en-IN', { 
@@ -78,7 +105,8 @@ function Dashboard() {
 
   const formattedTime = currentTime.toLocaleTimeString('en-IN', {
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    second: '2-digit'
   });
 
   // Premium animations
@@ -463,16 +491,14 @@ function Dashboard() {
             </h1>
             <div style={styles.userMeta}>
               <span style={styles.metaItem} className="hover-scale">
-                <FaMapMarkerAlt style={styles.metaIcon} className="bounce-on-hover" /> {user?.location || "Punjab"}
+                <FaMapMarkerAlt style={styles.metaIcon} className="bounce-on-hover" /> {user?.location || "chandbali"}
               </span>
               <span style={styles.metaItem} className="hover-scale">
-                <FaCalendarAlt style={styles.metaIcon} className="bounce-on-hover" /> Member since {user?.memberSince || "2024"}
+                <FaCalendarAlt style={styles.metaIcon} className="bounce-on-hover" /> Member since 2024
               </span>
-              <span style={styles.metaItem} className="hover-scale">
-                <FaRegClock style={styles.metaIcon} className="spin-slow" /> {formattedDate}
-              </span>
-              <span style={styles.metaItem} className="hover-scale">
-                <FaRegClockAlt style={styles.metaIcon} className="pulse-glow" /> {formattedTime}
+              <span style={styles.metaItem} className="hover-scale" onClick={toggleTimeDisplay} style={{ cursor: 'pointer' }}>
+                <FaRegClock style={styles.metaIcon} className="spin-slow" /> 
+                {showTime ? formattedDate : formattedTime}
               </span>
             </div>
           </div>
@@ -482,6 +508,7 @@ function Dashboard() {
               className="hover-lift"
               onMouseEnter={() => setShowNotification(true)}
               onMouseLeave={() => setShowNotification(false)}
+              onClick={() => alert('🔔 No new notifications')}
             >
               <FaBell style={styles.bellIcon} className="shake-on-hover" />
               <span style={styles.notificationPulse}></span>
@@ -498,14 +525,14 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* ========== SECTION 2: STATS CARDS ========== */}
+      {/* ========== SECTION 2: STATS CARDS WITH NUMBERS ========== */}
       <div style={styles.sectionSpacer}>
         <div style={styles.statsGrid}>
           {[
-            { icon: <FaUsers />, label: "Farmers", value: "—", sublabel: "Active", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
-            { icon: <FaLeaf />, label: "Crops", value: "—", sublabel: "Listed", gradient: "linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)" },
-            { icon: <FaShoppingCart />, label: "Orders", value: "—", sublabel: "Delivered", gradient: "linear-gradient(135deg, #f39c12 0%, #e67e22 100%)" },
-            { icon: <FaWallet />, label: "Earnings", value: "—", sublabel: "Total", gradient: "linear-gradient(135deg, #3498db 0%, #2980b9 100%)" }
+            { icon: <FaUsers />, label: "Farmers", value: stats.farmers, sublabel: "Active", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
+            { icon: <FaLeaf />, label: "Crops", value: stats.crops, sublabel: "Listed", gradient: "linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)" },
+            { icon: <FaShoppingCart />, label: "Orders", value: stats.orders, sublabel: "Delivered", gradient: "linear-gradient(135deg, #f39c12 0%, #e67e22 100%)" },
+            { icon: <FaWallet />, label: "Earnings", value: stats.earnings, sublabel: "Total", gradient: "linear-gradient(135deg, #3498db 0%, #2980b9 100%)" }
           ].map((stat, index) => (
             <div 
               key={index} 
@@ -584,7 +611,7 @@ function Dashboard() {
                 <button 
                   onClick={() => handleActionClick(feature.path)} 
                   style={styles.premiumFeatureBtn}
-                  className="ripple-effect"
+                  className="ripple-effect hover-glow"
                   disabled={isLoading[feature.path]}
                 >
                   {isLoading[feature.path] ? (
@@ -691,18 +718,18 @@ function Dashboard() {
                 <FaTemperatureHigh style={{ fontSize: "3rem", color: "#3498db" }} />
               </div>
               <div>
-                <div style={styles.premiumTemp}>--°C</div>
-                <div style={styles.premiumCond}>--</div>
+                <div style={styles.premiumTemp}>28°C</div>
+                <div style={styles.premiumCond}>Partly Cloudy</div>
               </div>
             </div>
             <div style={styles.premiumWeatherDetails}>
               <span className="hover-scale">
                 <FaTint style={{ color: "#27ae60", marginRight: "5px" }} className="float-animation" /> 
-                Humidity: --%
+                Humidity: 65%
               </span>
               <span className="hover-scale">
                 <FaWind style={{ color: "#3498db", marginRight: "5px" }} className="spin-slow" /> 
-                Wind: -- km/h
+                Wind: 12 km/h
               </span>
             </div>
             <button 
@@ -724,7 +751,7 @@ function Dashboard() {
         </h3>
         <div className="hover-lift card-shine" style={styles.premiumTaskCard}>
           <div style={styles.premiumTaskHeader}>
-            <span className="gradient-text-animate">0 of 0 completed</span>
+            <span className="gradient-text-animate">0 of 3 completed</span>
             <div style={styles.taskProgressBar}>
               <div style={{...styles.taskProgressFill, width: '0%'}}></div>
             </div>
@@ -763,16 +790,24 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {[1,2,3].map(i => (
+              {marketData.slice(0, 5).map((item, i) => (
                 <tr key={i} className="hover-scale">
-                  <td><span style={styles.premiumCrop}>—</span></td>
-                  <td>—</td>
-                  <td><span style={styles.premiumPrice}>—</span></td>
-                  <td><span style={styles.premiumChange}>—</span></td>
+                  <td><span style={styles.premiumCrop}>{item.crop}</span></td>
+                  <td>{item.market}</td>
+                  <td><span style={styles.premiumPrice}>{item.price}</span></td>
+                  <td>
+                    <span style={{ 
+                      color: item.trend === 'up' ? '#27ae60' : '#e74c3c',
+                      fontWeight: '600'
+                    }}>
+                      {item.change}
+                    </span>
+                  </td>
                   <td>
                     <button 
                       style={styles.premiumSmallBtn}
                       className="ripple-effect hover-glow"
+                      onClick={() => handleActionClick('/set-alerts')}
                     >
                       Set Alert
                     </button>
@@ -885,7 +920,7 @@ function Dashboard() {
       <div className="hover-lift card-shine" style={styles.premiumFooter}>
         <div style={styles.premiumSocialLinks}>
           {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin].map((Icon, i) => (
-            <Icon key={i} style={styles.socialIcon} className="hover-glow bounce-on-hover" />
+            <Icon key={i} style={styles.socialIcon} className="hover-glow bounce-on-hover" onClick={() => window.open('#', '_blank')} />
           ))}
         </div>
         <div style={styles.premiumContact}>
@@ -1410,7 +1445,8 @@ const styles = {
   premiumTable: {
     width: "100%",
     borderCollapse: "collapse",
-    marginBottom: "15px"
+    marginBottom: "15px",
+    textAlign: "left"
   },
   premiumCrop: {
     fontWeight: "600",
