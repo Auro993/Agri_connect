@@ -51,79 +51,6 @@ AgriConnect is a comprehensive full-stack agricultural platform designed to empo
 | **Backend API** | [https://agriconnect-api-60av.onrender.com](https://agriconnect-api-60av.onrender.com) |
 | **API Health** | [https://agriconnect-api-60av.onrender.com/health](https://agriconnect-api-60av.onrender.com/health) |
 
-## 📁 Project Structure
-agri-connect/
-├── client/ # React frontend
-│ ├── public/ # Static files
-│ ├── src/
-│ │ ├── assets/ # Images and icons
-│ │ │ └── images/
-│ │ │ ├── AgriConnect_Home.avif
-│ │ │ ├── Crop-Doctor.avif
-│ │ │ ├── Mandi-Price.avif
-│ │ │ ├── Rent-Farm.avif
-│ │ │ └── Weather.avif
-│ │ ├── components/ # Reusable components
-│ │ │ ├── Navbar.js
-│ │ │ ├── Footer.js
-│ │ │ └── ProtectedRoute.js
-│ │ ├── data/ # Dummy data files
-│ │ │ ├── mandiPrices.js
-│ │ │ ├── weatherAPI.js
-│ │ │ ├── equipmentData.js
-│ │ │ └── cropDiseases.js
-│ │ ├── pages/ # Main pages
-│ │ │ ├── Home.js
-│ │ │ ├── Login.js
-│ │ │ ├── Register.js
-│ │ │ ├── Dashboard.js
-│ │ │ ├── MarketPrices.js
-│ │ │ ├── SetAlerts.js
-│ │ │ ├── FarmAdvisor.js
-│ │ │ ├── IrrigationTips.js
-│ │ │ ├── EquipmentList.js
-│ │ │ ├── MyListings.js
-│ │ │ ├── Booking.js
-│ │ │ ├── AddListing.js
-│ │ │ ├── CropDoctor.js
-│ │ │ ├── ScanHistory.js
-│ │ │ ├── AddCrop.js
-│ │ │ ├── Crops.js
-│ │ │ └── Profile.js
-│ │ ├── config.js # Environment configuration
-│ │ ├── App.js
-│ │ └── index.js
-│ ├── package.json
-│ └── vercel.json # Vercel deployment config
-│
-├── server/ # Node.js backend
-│ ├── src/
-│ │ ├── config/
-│ │ │ └── db.js # Database configuration
-│ │ ├── controllers/
-│ │ │ └── authController.js
-│ │ ├── middleware/
-│ │ │ └── authMiddleware.js
-│ │ ├── models/
-│ │ │ ├── User.js
-│ │ │ ├── Crop.js
-│ │ │ ├── Order.js
-│ │ │ └── index.js
-│ │ ├── routes/
-│ │ │ ├── authRoutes.js
-│ │ │ ├── cropRoutes.js
-│ │ │ ├── orderRoutes.js
-│ │ │ ├── userRoutes.js
-│ │ │ └── statsRoutes.js
-│ │ └── index.js # Server entry point
-│ ├── package.json
-│ └── .env.example # Environment variables template
-│
-├── .gitignore
-└── README.md
-
-text
-
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
@@ -185,7 +112,7 @@ DB_PASSWORD=your-db-password
 DB_NAME=your-db-name
 JWT_SECRET=your-secret-key
 FRONTEND_URL=https://your-frontend.vercel.app
-Deploy!
+Click "Deploy" and wait 3-5 minutes
 
 Deploy Frontend on Vercel
 Create a Vercel account
@@ -198,7 +125,7 @@ Add environment variable:
 
 text
 REACT_APP_API_URL=https://your-backend.onrender.com
-Deploy!
+Click "Deploy"
 
 🔧 Environment Variables
 Backend (.env)
