@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";   
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Navbar from "./components/navbar";
@@ -25,11 +25,16 @@ import IrrigationTips from "./pages/IrrigationTips";
 import EquipmentList from "./pages/EquipmentList";
 import MyListings from "./pages/MyListings";
 import Booking from "./pages/Booking";
-import AddListing from "./pages/AddListing";  // ✅ ADD THIS LINE
+import AddListing from "./pages/AddListing";
 
 // Week 4: AI Crop Doctor
 import CropDoctor from "./pages/CropDoctor";
 import ScanHistory from "./pages/ScanHistory";
+
+// ========== ADD THESE MISSING IMPORTS ==========
+import AddCrop from "./pages/AddCrop";
+import Crops from "./pages/Crops";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -141,6 +146,32 @@ function App() {
             } 
           />
 
+          {/* ========== ADD THESE MISSING ROUTES ========== */}
+          <Route 
+            path="/add-crop" 
+            element={
+              <ProtectedRoute>
+                <AddCrop />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/crops" 
+            element={
+              <ProtectedRoute>
+                <Crops />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+
           {/* ========== 404 NOT FOUND ========== */}
           <Route 
             path="*" 
@@ -159,7 +190,7 @@ function App() {
                   The page you're looking for doesn't exist or has been moved.
                 </p>
                 <button 
-                  onClick={() => window.location.href = "/"}
+                  onClick={() => window.location.href = "/dashboard"}
                   style={{ 
                     padding: "12px 30px", 
                     background: "#27ae60", 
@@ -180,7 +211,7 @@ function App() {
                     e.target.style.transform = "translateY(0)";
                   }}
                 >
-                  Go to Homepage
+                  Go to Dashboard
                 </button>
               </div>
             } 
