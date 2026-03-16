@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+// Get the API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -29,12 +32,12 @@ function Register() {
     // Debug log
     console.log("🔄 Attempting registration...");
     console.log("Data:", formData);
-    console.log("URL: http://localhost:5001/api/auth/register");
+    console.log("URL:", `${API_URL}/api/auth/register`);
 
     try {
       // First, test if backend is reachable
       console.log("🔍 Testing backend connection...");
-      const testResponse = await fetch("http://localhost:5001/api/auth/register", {
+      const testResponse = await fetch(`${API_URL}/api/auth/register`, {
         method: "GET",
         mode: "cors"
       });
@@ -44,7 +47,7 @@ function Register() {
       console.log("📤 Sending registration request...");
       const startTime = Date.now();
       
-      const response = await fetch("http://localhost:5001/api/auth/register", {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +79,7 @@ function Register() {
       const data = await response.json();
       console.log("✅ Success! Data:", data);
       
-      // ✅ CHANGED: Show success message and redirect to login
+      // Show success message and redirect to login
       alert(`🎉 Registration successful!\nPlease login with your credentials.`);
       navigate("/login");
       
@@ -89,7 +92,7 @@ function Register() {
       if (error.message.includes("Failed to fetch") || 
           error.message.includes("NetworkError") ||
           error.message.includes("Network request failed")) {
-        errorMessage = "Cannot connect to backend server. Make sure the backend is running on port 5001.";
+        errorMessage = "Cannot connect to backend server. Make sure the backend is running.";
       }
       
       setError(errorMessage);
@@ -123,8 +126,8 @@ function Register() {
           <strong>⚠️ Error:</strong> {error}
           <div style={{ marginTop: "10px", fontSize: "12px", color: "#c0392b" }}>
             <strong>Debug Info:</strong><br/>
-            • Backend URL: http://localhost:5001/api/auth/register<br/>
-            • Make sure backend is running: <code>npm start</code> in server folder
+            • Backend URL: {API_URL}/api/auth/register<br/>
+            • Make sure backend is running
           </div>
         </div>
       )}
@@ -232,7 +235,7 @@ function Register() {
             </Link>
           </p>
           <p style={{ fontSize: "12px", marginTop: "15px", background: "#f0f0f0", padding: "10px", borderRadius: "5px" }}>
-            <strong>Note:</strong> Backend must be running at <code>http://localhost:5001</code><br/>
+            <strong>Note:</strong> Backend URL: {API_URL}<br/>
             Check console (F12) for detailed error information
           </p>
         </div>
