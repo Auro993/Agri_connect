@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaGoogle, FaFacebookF } from "react-icons/fa";
 
+// Get the API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -52,8 +55,9 @@ function Login() {
     setErrors({});
 
     try {
-      // ✅ FIXED: Changed from 127.0.0.1 to localhost for consistency
-      const res = await fetch("http://localhost:5001/api/auth/login", {
+      console.log("🔍 Attempting login to:", `${API_URL}/api/auth/login`);
+      
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -76,7 +80,10 @@ function Login() {
         setErrors({ general: data.message || "Login failed. Please try again." });
       }
     } catch (error) {
-      setErrors({ general: "Network error. Please check your connection to port 5001." });
+      console.error("Login error:", error);
+      setErrors({ 
+        general: "Network error. Cannot connect to backend server. Make sure the backend is running." 
+      });
     } finally {
       setLoading(false);
     }
@@ -427,11 +434,7 @@ const styles = {
     border: "2px solid #e0e0e0",
     borderRadius: "10px",
     transition: "all 0.3s",
-    outline: "none",
-    ":focus": {
-      borderColor: "#27ae60",
-      boxShadow: "0 0 0 3px rgba(39, 174, 96, 0.1)"
-    }
+    outline: "none"
   },
   passwordWrapper: {
     position: "relative"
@@ -459,10 +462,7 @@ const styles = {
     color: "#27ae60",
     fontSize: "14px",
     cursor: "pointer",
-    textDecoration: "underline",
-    ":hover": {
-      color: "#219653"
-    }
+    textDecoration: "underline"
   },
   rememberMe: {
     display: "flex",
@@ -488,15 +488,7 @@ const styles = {
     transition: "all 0.3s",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    ":hover": {
-      transform: "translateY(-3px)",
-      boxShadow: "0 10px 20px rgba(39, 174, 96, 0.3)"
-    },
-    ":disabled": {
-      opacity: 0.7,
-      cursor: "not-allowed"
-    }
+    justifyContent: "center"
   },
   spinner: {
     width: "20px",
@@ -511,16 +503,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     margin: "30px 0",
-    color: "#95a5a6",
-    "::before, ::after": {
-      content: '""',
-      flex: 1,
-      height: "1px",
-      background: "#e0e0e0"
-    },
-    "span": {
-      padding: "0 15px"
-    }
+    color: "#95a5a6"
   },
   socialButtons: {
     display: "flex",
@@ -539,12 +522,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "10px",
-    transition: "all 0.3s",
-    ":hover": {
-      background: "#f8f9fa",
-      borderColor: "#db4437"
-    }
+    gap: "10px"
   },
   socialButtonFacebook: {
     flex: 1,
@@ -558,12 +536,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "10px",
-    transition: "all 0.3s",
-    ":hover": {
-      background: "#f8f9fa",
-      borderColor: "#4267B2"
-    }
+    gap: "10px"
   },
   signupLink: {
     textAlign: "center",
@@ -572,15 +545,7 @@ const styles = {
   link: {
     color: "#27ae60",
     fontWeight: "bold",
-    textDecoration: "none",
-    ":hover": {
-      textDecoration: "underline"
-    }
-  },
-  demoNote: {
-    marginTop: "10px",
-    color: "#95a5a6",
-    fontSize: "14px"
+    textDecoration: "none"
   },
   securityBadge: {
     display: "flex",
