@@ -1,4 +1,4 @@
-function Footer() { 
+function Footer() {  
   return (
     <footer style={styles.footer}>
       <p>© 2026 AgriConnect. All rights reserved.</p>
