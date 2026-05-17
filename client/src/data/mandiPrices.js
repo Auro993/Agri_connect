@@ -1,4 +1,4 @@
-// Dummy data for 10 major crops - REALISTIC Indian mandi rates
+// Dummy data for 10 major crops - REALISTIC Indian mandi rates 
 const mandiPrices = [
   { id: 1, crop: "Wheat", state: "Punjab", price: 2275, unit: "quintal", change: "+15", market: "Khanna" },
   { id: 2, crop: "Rice", state: "Telangana", price: 2450, unit: "quintal", change: "-10", market: "Jangaon" },
