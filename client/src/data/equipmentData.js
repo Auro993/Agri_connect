@@ -1,6 +1,6 @@
 // Dummy data for farm equipment
 
-const equipmentData = [
+const equipmentData = [ 
   {
     id: 1,
     name: "John Deere 5050D Tractor",
