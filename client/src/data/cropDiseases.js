@@ -1,6 +1,6 @@
 // Dummy disease data for AI Crop Doctor
 
-export const diseaseDatabase = {
+export const diseaseDatabase = { 
   "Wheat": [
     {
       id: "wheat_rust",
