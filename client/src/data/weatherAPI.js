@@ -1,5 +1,5 @@
 // Free OpenWeatherMap API helper
-// Sign up at https://openweathermap.org/api to get your free API key
+// Sign up at https://openweathermap.org/api to get your free API key 
 
 // For demo purposes, we'll use dummy data first
 // Replace with actual API call later
